@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yps OAuth Callback</title>
+</head>
+<body>
+  <h1>Yps OAuth Callback</h1>
+
+  <p id="status">Processing authorization response…</p>
+
+  <p>
+    <strong>Authorization code:</strong><br>
+    <code id="code"></code>
+  </p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const error = params.get("error");
+    const errorDescription = params.get("error_description");
+
+    const status = document.getElementById("status");
+    const codeElement = document.getElementById("code");
+
+    if (code) {
+      status.textContent =
+        "Authorization successful. Copy the code below and return to the local Yps setup.";
+      codeElement.textContent = code;
+    } else if (error) {
+      status.textContent =
+        "Authorization failed: " + error +
+        (errorDescription ? " — " + errorDescription : "");
+    } else {
+      status.textContent =
+        "No OAuth authorization response was supplied.";
+    }
+  </script>
+</body>
+</html>
